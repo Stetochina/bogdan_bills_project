@@ -20,10 +20,13 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import TabPanel from "./TabPanel";
 import useBills from "../hooks/useBills";
 import { Bill } from "../hooks/useBills";
+import { useBillContext } from "../context/BillContext";
 
 const BillTable: React.FC = () => {
   const { bills, billsLoading, page, handleSetPage, totalBillCount } =
     useBills();
+  const { favourites, handleToggleFavourites } = useBillContext();
+
   const [selectedBill, setSelectedBill] = useState<Bill | null>(null);
   const [tab, setTab] = useState(0);
   const [filter, setFilter] = useState("");
@@ -48,6 +51,18 @@ const BillTable: React.FC = () => {
       temp.push(item_sponsor);
     }
     return temp.join(", ");
+  };
+
+  const checkIsFavourite = (bill: Bill) => {
+    const exists = [...favourites].some(
+      (favourite) => favourite.bill.billNo === bill.bill.billNo
+    );
+
+    if (exists) {
+      return <StarIcon color="primary" />;
+    } else {
+      return <StarBorderIcon />;
+    }
   };
 
   if (!totalBillCount) {
@@ -100,8 +115,8 @@ const BillTable: React.FC = () => {
                   {handleBillSponsor(bill)}
                 </TableCell>
                 <TableCell>
-                  <IconButton>
-                    <StarBorderIcon />
+                  <IconButton onClick={(e) => handleToggleFavourites(e, bill)}>
+                    {checkIsFavourite(bill)}
                   </IconButton>
                 </TableCell>
               </TableRow>
