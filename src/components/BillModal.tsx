@@ -10,11 +10,11 @@ const DisplayTitles: React.FC<{ longTitle: string; shortTitle: string }> = ({
     <Stack spacing={4} padding={"16px"}>
       <Stack>
         <Typography style={{ fontWeight: "bold" }}>Title:</Typography>
-        <Typography>{longTitle}</Typography>
+        <Typography>{longTitle ?? "No title provided"}</Typography>
       </Stack>
       <Stack>
         <Typography style={{ fontWeight: "bold" }}>Short Title:</Typography>
-        <Typography>{shortTitle}</Typography>
+        <Typography>{shortTitle ?? "no short title provided"}</Typography>
       </Stack>
     </Stack>
   );

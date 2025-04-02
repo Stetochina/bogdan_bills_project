@@ -11,6 +11,7 @@ import {
   MenuItem,
   Pagination,
   Stack,
+  useTheme,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
@@ -21,6 +22,7 @@ import TabPanel from "./TabPanel";
 import BillModal from "./BillModal";
 
 const BillTable: React.FC = () => {
+  const theme = useTheme();
   const {
     bills,
     billsLoading,
@@ -33,7 +35,6 @@ const BillTable: React.FC = () => {
   const { favourites, handleToggleFavourites } = useBillContext();
   const [selectedBill, setSelectedBill] = useState<Bill | null>(null);
   const [tabIndex, setTabIndex] = useState(0);
-  const rowsPerPage = 50;
 
   const filteredBills = filter
     ? [...bills].filter((bill) => bill.bill.status === filter)
@@ -136,7 +137,16 @@ const BillTable: React.FC = () => {
         }}
       >
         {billsLoading ? (
-          <CircularProgress />
+          <Container
+            style={{
+              height: "1000px",
+              padding: 0,
+              display: "grid",
+              placeItems: "center",
+            }}
+          >
+            <CircularProgress />
+          </Container>
         ) : (
           <TabPanel value={tabIndex} index={0}>
             {[...filteredBills].map((bill) => (
@@ -145,7 +155,11 @@ const BillTable: React.FC = () => {
                 onClick={() => setSelectedBill(bill)}
                 style={{ cursor: "pointer" }}
               >
-                <TableCell>{bill.bill.billNo}</TableCell>
+                <TableCell
+                  style={{ color: theme.palette.grey[900], fontWeight: 700 }}
+                >
+                  {bill.bill.billNo}
+                </TableCell>
                 <TableCell>{bill.bill.billType}</TableCell>
                 <TableCell>{bill.bill.status}</TableCell>
                 <TableCell style={{ maxWidth: "250px" }}>
@@ -166,7 +180,11 @@ const BillTable: React.FC = () => {
               key={bill.bill.billNo}
               onClick={() => setSelectedBill(bill)}
             >
-              <TableCell>{bill.bill.billNo}</TableCell>
+              <TableCell
+                style={{ color: theme.palette.grey[900], fontWeight: 700 }}
+              >
+                {bill.bill.billNo}
+              </TableCell>
               <TableCell>{bill.bill.billType}</TableCell>
               <TableCell>{bill.bill.status}</TableCell>
               <TableCell>{handleBillSponsor(bill)}</TableCell>

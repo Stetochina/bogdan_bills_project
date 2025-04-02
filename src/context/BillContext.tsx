@@ -18,7 +18,11 @@ export const BillProvider: React.FC<{ children: React.ReactNode }> = ({
 
     let temp = [...favourites];
     const index = temp.indexOf(bill);
-    if (index === -1) {
+
+    const exists = [...favourites].some(
+      (favourite) => favourite.bill.billNo === bill.bill.billNo
+    );
+    if (!exists) {
       temp.push(bill);
       console.log(
         `Sending mock POST request to api https://api.oireachtas.ie/v1/legislation/${bill.bill.billNo}/favourite/`,

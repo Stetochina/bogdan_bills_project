@@ -49,16 +49,11 @@ const useBills = () => {
       const response = await axios.get(
         `https://api.oireachtas.ie/v1/legislation?limit=${pageSize}&skip=${skip}${queryFilterParam}`
       );
-      console.log(
-        `https://api.oireachtas.ie/v1/legislation?limit=${pageSize}&skip=${skip}${queryFilterParam}`
-      );
+
       setBills(new Set(response.data.results));
-      if (!totalBillCount) {
-        setTotalBillCount(response.data.head.counts.billCount);
-      }
-      if (response.data.head.counts.billCount !== totalBillCount) {
-        setTotalBillCount(response.data.head.counts.billCount);
-      }
+
+      setTotalBillCount(response.data.head.counts.billCount);
+
       setBillsLoading(false);
     } catch (error) {
       console.error("Error fetching bills:", error);
@@ -81,6 +76,7 @@ const useBills = () => {
   };
 
   const handleSetFilter = (filter: string) => {
+    setBillsLoading(true);
     setFilter(filter);
     setPage(1);
   };
