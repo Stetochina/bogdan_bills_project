@@ -21,11 +21,17 @@ import TabPanel from "./TabPanel";
 import BillModal from "./BillModal";
 
 const BillTable: React.FC = () => {
-  const { bills, billsLoading, page, handleSetPage, totalBillCount } =
-    useBills();
+  const {
+    bills,
+    billsLoading,
+    page,
+    handleSetPage,
+    totalBillCount,
+    filter,
+    handleSetFilter,
+  } = useBills();
   const { favourites, handleToggleFavourites } = useBillContext();
   const [selectedBill, setSelectedBill] = useState<Bill | null>(null);
-  const [filter, setFilter] = useState("");
   const [tabIndex, setTabIndex] = useState(0);
   const rowsPerPage = 50;
 
@@ -91,19 +97,24 @@ const BillTable: React.FC = () => {
       >
         <Select
           value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          onChange={(e) => handleSetFilter(e.target.value)}
           displayEmpty
           style={{ marginTop: "20px" }}
         >
           <MenuItem value="">Filter by status</MenuItem>
           {/* Filtering based on status and not type as ive only seen Public type and the filtering didnt make much sense */}
-          {[...new Set([...bills].map((bill) => bill.bill.status))].map(
-            (type) => (
-              <MenuItem key={type} value={type}>
-                {type}
-              </MenuItem>
-            )
-          )}
+          {[
+            "Current",
+            "Withdrawn",
+            "Enacted",
+            "Rejected",
+            "Defeated",
+            "Lapsed",
+          ].map((type) => (
+            <MenuItem key={type} value={type}>
+              {type}
+            </MenuItem>
+          ))}
         </Select>
         {tabIndex == 0 && (
           <Pagination

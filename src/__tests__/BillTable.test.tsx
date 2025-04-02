@@ -5,7 +5,6 @@ import useBills from "../hooks/useBills";
 import { useBillContext } from "../context/BillContext";
 import "@testing-library/jest-dom";
 
-// Mock the hooks with proper type definitions
 jest.mock("../hooks/useBills");
 jest.mock("../context/BillContext");
 

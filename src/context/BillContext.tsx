@@ -27,8 +27,7 @@ export const BillProvider: React.FC<{ children: React.ReactNode }> = ({
     } else {
       temp.splice(index, 1);
       console.log(
-        `Sending mock DELETE request to api https://api.oireachtas.ie/v1/legislation/${bill.bill.billNo}/favourite/`,
-        `with the following payload ${JSON.stringify(bill)}`
+        `Sending mock DELETE request to api https://api.oireachtas.ie/v1/legislation/${bill.bill.billNo}/favourite/`
       );
     }
     setFavourites(new Set(temp));

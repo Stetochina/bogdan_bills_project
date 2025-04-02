@@ -29,6 +29,7 @@ const useBills = () => {
   const [favourites, setFavourites] = useState<Bill[]>([]);
   const [billsLoading, setBillsLoading] = useState<Boolean>(false);
   const [totalBillCount, setTotalBillCount] = useState<number | null>(null);
+  const [filter, setFilter] = useState<string>("");
 
   const handleSetPage = (pageNumber: number) => {
     if (pageNumber !== page) {
@@ -39,14 +40,23 @@ const useBills = () => {
 
   const fetchBills = async () => {
     const skip = (page - 1) * pageSize;
+    let queryFilterParam = "";
+    if (filter != "") {
+      queryFilterParam = `&bill_status=${filter}`;
+    }
 
     try {
       const response = await axios.get(
-        `https://api.oireachtas.ie/v1/legislation?limit=${pageSize}&skip=${skip}`
+        `https://api.oireachtas.ie/v1/legislation?limit=${pageSize}&skip=${skip}${queryFilterParam}`
       );
-      console.log(response);
+      console.log(
+        `https://api.oireachtas.ie/v1/legislation?limit=${pageSize}&skip=${skip}${queryFilterParam}`
+      );
       setBills(new Set(response.data.results));
       if (!totalBillCount) {
+        setTotalBillCount(response.data.head.counts.billCount);
+      }
+      if (response.data.head.counts.billCount !== totalBillCount) {
         setTotalBillCount(response.data.head.counts.billCount);
       }
       setBillsLoading(false);
@@ -57,7 +67,7 @@ const useBills = () => {
 
   useEffect(() => {
     fetchBills();
-  }, [page]);
+  }, [page, filter]);
 
   const toggleFavourite = (bill: Bill) => {
     let temp = [...favourites];
@@ -70,6 +80,11 @@ const useBills = () => {
     setFavourites(temp);
   };
 
+  const handleSetFilter = (filter: string) => {
+    setFilter(filter);
+    setPage(1);
+  };
+
   return {
     bills,
     favourites,
@@ -78,6 +93,8 @@ const useBills = () => {
     page,
     handleSetPage,
     totalBillCount,
+    filter,
+    handleSetFilter,
   };
 };
 
