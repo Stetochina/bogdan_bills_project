@@ -36,14 +36,11 @@ const BillTable: React.FC = () => {
   const [selectedBill, setSelectedBill] = useState<Bill | null>(null);
   const [tabIndex, setTabIndex] = useState(0);
 
-  const filteredBills = filter
-    ? [...bills].filter((bill) => bill.bill.status === filter)
-    : bills;
-
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
   };
 
+  // extract sponsors
   const handleBillSponsor = (bill: Bill) => {
     const sponsors = bill.bill.sponsors;
     let temp = [];
@@ -56,6 +53,7 @@ const BillTable: React.FC = () => {
     return temp.join(", ");
   };
 
+  // validate wheter a bill exists wihin the favourites and render icon accordingly
   const checkIsFavourite = (bill: Bill) => {
     const exists = [...favourites].some(
       (favourite) => favourite.bill.billNo === bill.bill.billNo
@@ -103,7 +101,8 @@ const BillTable: React.FC = () => {
           style={{ marginTop: "20px" }}
         >
           <MenuItem value="">Filter by status</MenuItem>
-          {/* Filtering based on status and not type as ive only seen Public type and the filtering didnt make much sense */}
+          {/* Filtering based on status and not type as ive only seen Public type and the filtering didnt make much sense 
+          while status exist as a query field in the swagger. Hope its not a deal breaker :) */}
           {[
             "Current",
             "Withdrawn",
@@ -139,7 +138,7 @@ const BillTable: React.FC = () => {
         {billsLoading ? (
           <Container
             style={{
-              height: "1000px",
+              height: "700px",
               padding: 0,
               display: "grid",
               placeItems: "center",
@@ -149,7 +148,7 @@ const BillTable: React.FC = () => {
           </Container>
         ) : (
           <TabPanel value={tabIndex} index={0}>
-            {[...filteredBills].map((bill) => (
+            {[...bills].map((bill) => (
               <TableRow
                 key={`${bill.bill.billNo} ${bill.bill.shortTitleEn}`}
                 onClick={() => setSelectedBill(bill)}
@@ -187,7 +186,9 @@ const BillTable: React.FC = () => {
               </TableCell>
               <TableCell>{bill.bill.billType}</TableCell>
               <TableCell>{bill.bill.status}</TableCell>
-              <TableCell>{handleBillSponsor(bill)}</TableCell>
+              <TableCell style={{ maxWidth: "250px" }}>
+                {handleBillSponsor(bill)}
+              </TableCell>
               <TableCell>
                 <IconButton onClick={(e) => handleToggleFavourites(e, bill)}>
                   <StarIcon color="primary" />

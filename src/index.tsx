@@ -3,25 +3,27 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 
+// material ui theme declaration - provided couple of examples in the code
+// regarding usage
 const theme = createTheme({
   palette: {
     background: {
       default: "#f4f4f4",
     },
     primary: {
-      main: "#1976d2", // Blue
+      main: "#1976d2",
     },
     secondary: {
-      main: "#388e3c", // Green
+      main: "#388e3c",
     },
     warning: {
-      main: "#fbc02d", // Yellow
+      main: "#fbc02d",
     },
     error: {
-      main: "#d32f2f", // Red
+      main: "#d32f2f",
     },
     success: {
-      main: "#ffa000", // Orange
+      main: "#ffa000",
     },
     grey: {
       50: "#fafafa",
@@ -29,7 +31,7 @@ const theme = createTheme({
       200: "#eeeeee",
       300: "#e0e0e0",
       400: "#bdbdbd",
-      500: "#9e9e9e", // Default gray
+      500: "#9e9e9e",
       600: "#757575",
       700: "#616161",
       800: "#424242",
