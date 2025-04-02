@@ -16,6 +16,8 @@ export interface Bill {
     ];
     shortTitleEn: string;
     shortTitleGa: string;
+    longTitleEn: string;
+    longTitleGa: string;
   };
 }
 

@@ -22,13 +22,13 @@ export const BillProvider: React.FC<{ children: React.ReactNode }> = ({
       temp.push(bill);
       console.log(
         `Sending mock POST request to api https://api.oireachtas.ie/v1/legislation/${bill.bill.billNo}/favourite/`,
-        `with the following payloa ${JSON.stringify(bill)}`
+        `with the following payload ${JSON.stringify(bill)}`
       );
     } else {
       temp.splice(index, 1);
       console.log(
         `Sending mock DELETE request to api https://api.oireachtas.ie/v1/legislation/${bill.bill.billNo}/favourite/`,
-        `with the following payloa ${JSON.stringify(bill)}`
+        `with the following payload ${JSON.stringify(bill)}`
       );
     }
     setFavourites(new Set(temp));

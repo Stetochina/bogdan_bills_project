@@ -5,11 +5,8 @@ import {
   CircularProgress,
   TableRow,
   IconButton,
-  Modal,
   Tabs,
   Tab,
-  Typography,
-  Box,
   Select,
   MenuItem,
   Pagination,
@@ -17,18 +14,17 @@ import {
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import TabPanel from "./TabPanel";
 import useBills from "../hooks/useBills";
-import { Bill } from "../hooks/useBills";
 import { useBillContext } from "../context/BillContext";
+import { Bill } from "../hooks/useBills";
+import TabPanel from "./TabPanel";
+import BillModal from "./BillModal";
 
 const BillTable: React.FC = () => {
   const { bills, billsLoading, page, handleSetPage, totalBillCount } =
     useBills();
   const { favourites, handleToggleFavourites } = useBillContext();
-
   const [selectedBill, setSelectedBill] = useState<Bill | null>(null);
-  const [tab, setTab] = useState(0);
   const [filter, setFilter] = useState("");
   const [tabIndex, setTabIndex] = useState(0);
   const rowsPerPage = 50;
@@ -87,6 +83,36 @@ const BillTable: React.FC = () => {
         <Tab value={0} label="All Bills" />
         <Tab value={1} label="Favourites" />
       </Tabs>
+      <Stack
+        direction={"row"}
+        justifyContent="space-between"
+        alignItems={"center"}
+        padding={"0 20px 0 20px"}
+      >
+        <Select
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          displayEmpty
+          style={{ marginTop: "20px" }}
+        >
+          <MenuItem value="">Filter by status</MenuItem>
+          {/* Filtering based on status and not type as ive only seen Public type and the filtering didnt make much sense */}
+          {[...new Set([...bills].map((bill) => bill.bill.status))].map(
+            (type) => (
+              <MenuItem key={type} value={type}>
+                {type}
+              </MenuItem>
+            )
+          )}
+        </Select>
+        {tabIndex == 0 && (
+          <Pagination
+            count={Math.ceil(totalBillCount / 50)}
+            page={page}
+            onChange={(_, value) => handleSetPage(value)}
+          />
+        )}
+      </Stack>
 
       <Container
         style={{
@@ -123,7 +149,30 @@ const BillTable: React.FC = () => {
             ))}
           </TabPanel>
         )}
+        <TabPanel value={tabIndex} index={1}>
+          {[...favourites].map((bill: Bill) => (
+            <TableRow
+              key={bill.bill.billNo}
+              onClick={() => setSelectedBill(bill)}
+            >
+              <TableCell>{bill.bill.billNo}</TableCell>
+              <TableCell>{bill.bill.billType}</TableCell>
+              <TableCell>{bill.bill.status}</TableCell>
+              <TableCell>{handleBillSponsor(bill)}</TableCell>
+              <TableCell>
+                <IconButton onClick={(e) => handleToggleFavourites(e, bill)}>
+                  <StarIcon color="primary" />
+                </IconButton>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TabPanel>
       </Container>
+
+      <BillModal
+        selectedBill={selectedBill}
+        onClose={() => setSelectedBill(null)}
+      />
     </Container>
   );
 };

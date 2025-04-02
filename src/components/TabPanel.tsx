@@ -23,6 +23,7 @@ import {
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import useBills from "../hooks/useBills";
+import { useBillContext } from "../context/BillContext";
 import { Bill } from "../hooks/useBills";
 
 const TabPanel = ({
@@ -52,7 +53,7 @@ const TabPanel = ({
                 <TableCell>Favourite</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>{children} </TableBody>
+            <TableBody>{children}</TableBody>
           </Table>
         </TableContainer>
       )}
