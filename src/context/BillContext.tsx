@@ -18,7 +18,7 @@ export const BillProvider: React.FC<{ children: React.ReactNode }> = ({
   const handleToggleFavourites = (event: React.SyntheticEvent, bill: Bill) => {
     event.stopPropagation();
 
-    let temp = [...favourites];
+    const temp = [...favourites];
     const index = temp.indexOf(bill);
 
     const exists = [...favourites].some(

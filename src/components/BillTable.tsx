@@ -43,9 +43,9 @@ const BillTable: React.FC = () => {
   // extract sponsors
   const handleBillSponsor = (bill: Bill) => {
     const sponsors = bill.bill.sponsors;
-    let temp = [];
+    const temp = [];
     for (let i = 0; i < sponsors.length; i++) {
-      let item_sponsor =
+      const item_sponsor =
         sponsors[i].sponsor["by"]["showAs"] ??
         sponsors[i].sponsor["as"]["showAs"];
       temp.push(item_sponsor);

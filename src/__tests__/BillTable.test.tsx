@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import BillTable from "../components/BillTable";
 import useBills from "../hooks/useBills";
 import { useBillContext } from "../context/BillContext";

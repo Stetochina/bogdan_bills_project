@@ -26,7 +26,7 @@ const pageSize = 50;
 const useBills = () => {
   const [bills, setBills] = useState<Set<Bill>>(new Set());
   const [page, setPage] = useState(1);
-  const [billsLoading, setBillsLoading] = useState<Boolean>(false);
+  const [billsLoading, setBillsLoading] = useState<boolean>(false);
   const [totalBillCount, setTotalBillCount] = useState<number | null>(null);
   const [filter, setFilter] = useState<string>("");
 

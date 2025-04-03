@@ -26,8 +26,13 @@ const BillModal: React.FC<{
 }> = ({ selectedBill, onClose }) => {
   const [tab, setTab] = useState(0);
 
+  const handleOnClose = () => {
+    setTab(0);
+    onClose();
+  };
+
   return (
-    <Modal open={!!selectedBill} onClose={onClose}>
+    <Modal open={!!selectedBill} onClose={handleOnClose}>
       <Box
         sx={{
           width: "700px",
